@@ -6,6 +6,11 @@ const api=axios.create({
     
 })
 
+const publicApi=axios.create({
+    baseURL:import.meta.env.VITE_BASE_URL,
+    
+})
+
 const getAuthHeader=(token)=>({
      headers:{Authorization:token}
 })
@@ -15,7 +20,10 @@ export const resumeService={
         const {data}=await api.get('/api/users/resumes',getAuthHeader(token))
         return data.resumes
     },
-
+    getPublicById:async(id)=>{
+        const {data}=await publicApi.get(`/api/resumes/public/${id}`)
+        return data.resume
+    },
     getById:async(id,token)=>{
         const {data}=await api.get(`/api/resumes/get/${id}`,getAuthHeader(token))
         return data.resume

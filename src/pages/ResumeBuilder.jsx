@@ -113,11 +113,16 @@ const ResumeBuilder=()=> {
   }
 
   const handleShare=()=>{
+   
     const frontendUrl=window.location.href.split("/app")[0];
     const resumeUrl=frontendUrl + "/view/" + resumeId
-
+     const shareData={
+      title:"My CV",
+      text:"Hier ist my professionell CV.",
+      url:resumeUrl
+    }
     if(navigator.share){
-      navigator.share({url:resumeUrl,text:"My Resume",})
+     navigator.share(shareData)
     }else{
       alert("Share not supported on this browser.")
     }

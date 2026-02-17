@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from 'react'
+
 import { useParams } from 'react-router-dom'
 import ResumePreview from '../components/ResumePreview';
 import Loader from '../components/Loader';
 import { ArrowLeftIcon } from 'lucide-react';
 
-const Preview=({data})=> {
+import { useQuery } from '@tanstack/react-query';
+import { resumeService } from '../../app/config/api';
+
+const Preview=()=> {
 
   const {resumeId}=useParams();
-  const [isLoading,setIsLoading]=useState(true)
-  const [resumeData,setResumeData]=useState(data || null)
+
+   const {data:publicResume,isLoading}=useQuery({
+       queryKey:['publicResume',resumeId],
+       queryFn:async()=>resumeService.getPublicById(resumeId),
+       enabled: !!resumeId,
+
+    });
+
+
 
  
-  useEffect(()=>{
-    const loadResume=async()=>{
-    setResumeData(data.find(resume=> resume._id === resumeId || null))
-    setIsLoading(false)
- }
-  loadResume();
 
-  console.log(isLoading)
-  },[])
-  return resumeData ? (
+  return publicResume ? (
      <div className=' bg-slate-100'>
        <div>
-        <ResumePreview data={resumeData} 
-        template={resumeData.template}
-         accentColor={resumeData.accent_color}
+        <ResumePreview data={publicResume} 
+          template={publicResume.template}
+         accentColor={publicResume.accent_color}
          classes='py-4 bg-white'/>
        </div>
     </div>

@@ -16,6 +16,8 @@ export const useResumes=(token,id=null)=>{
        queryFn:async()=>resumeService.getById(id,token),
        enabled: !!token && !!id,
     });
+
+   
     const createMutation = useMutation({
       mutationFn:async (title) => resumeService.create(title, token),
       onSuccess: () => {
@@ -61,6 +63,7 @@ export const useResumes=(token,id=null)=>{
   });
 
   return {
+
     resumes: resumes.data,
     resume:resume.data,
     isLoading: resumes.isLoading,
